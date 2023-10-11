@@ -69,7 +69,7 @@ if ((l % 2 == 0) && (l >= 0))
 }
 else if(!((l % 2 == 0) && (l >= 0)))
 {
-	// páratlan és negatív
+	// páratlan és pozitív
 }else if ((l % 2 == 0) && !(l >= 0))
 {
 	// páros és negatív

@@ -1,138 +1,152 @@
 ```c#
-// logikai operátorok: ==, !=, >, <, >=, <=
-// true, vagy false-->bool típus
-// logikai kapuk (logic gate):
-// komplex logikai kifejezésekhez
-// AND = && (AltGr + C)
-// OR = || (AltGr + W)
-// NOT = ! (Shift + 4)
+// logikai operátorok:
+// >, <, !=, ==, <=, >=
+// logikai kapuk:
+// NOT (negáció): ! (Shift + 4)
+// OR (vagy): || (altgr + w)
+// AND (és): && (altgr + c)
 
-bool and = (true && false);
-Console.WriteLine(and);//false
+// vissztérési értékük: logikai típus: igaz/hamis
+// bool--> true/false
 
-bool or = (true || false);
-Console.WriteLine(or);
+bool valtozo = !(7 < 0) && !(6 > 7); // true
 
-bool not = !true;
-Console.WriteLine(not); //false
+// Írjunk egy kif-t ami ellenőrzi hogy egy
+// szám páros ÉS pozitív
 
-/*
-	Írjunk egy kifejezést, amely azt ellenőrzi, hogy egy adott
-	szám osztható-e 3mal vagy 5-el
- */
-
-Console.WriteLine("Add meg az x értékét");
-int x = Convert.ToInt32(Console.ReadLine());
-
-if ((x % 3 == 0) || (x % 5 == 0))
-{
-	Console.WriteLine($"Ez a(z) {x} szám olyan érték, ami vagy 3 és vagy 5-el osztható");
-}
-
-/*
- * && (AND) logikai kapuval kellene felírni
- */
-
-Console.WriteLine("Add meg az o értékét");
-int o = Convert.ToInt32(Console.ReadLine());
-if (o > 0 && o < (((17 % 2) + (6 / 2)) / 4 + 1))  //1
-{
-	Console.WriteLine("FEJ");
-}
-else if (o > -1 && o < (Math.Pow(2, 3) - 7)) //o==0 
-{
-	Console.WriteLine("ÍRÁS");
-}
-
-
-/*
-	Írjunk egy kifejezést, amely azt ellenőrzi, 
-	hogy egy adott szám osztható-e 3mal vagy 5-el, 
-	de nem mindkettővel!!
-*/
-Console.WriteLine("add meg az 'a' értékét");
+Console.WriteLine( "Adj meg egy számot:" );
 int a = Convert.ToInt32(Console.ReadLine());
-if (((a % 3 == 0) || (a % 5 == 0)) && !((a % 3 == 0) && (a % 5 == 0))) 
+if ((a % 2 == 0) && (a >= 0)) 
 {
-	// itt  minden lefut ha a feltétel igaz
+	// páros + pozitív
+	Console.WriteLine("A szám páros és pozitív.");
+}
+if ( (a % 2 == 0) && !(a >= 0))
+	
+{
+	Console.WriteLine("a szam paros es negativ dili");
+	// páros +  negatív 
+}
+if (!(a % 2 == 0) && (a >= 0))
+{
+	// páratlan + pozitív
+	Console.WriteLine("a szam paratlan es pozitiv");
+}
+if (!((a % 2 == 0) && (a >= 0))) 
+{
+	//páratlan és negatív
+	Console.WriteLine();
 }
 
 /*
- * Írj egy kif, amely azt ellenőrzi, hogy egy adott 
- * szám páros és pozitív is egyben
+ Kérj be egy telószámot, 06 utánit, és ellenőrizd
+hogy valid-e, ha igen nézd meg h milyen szolgáltatóhoz
+tartozik
  */
-Console.WriteLine("add meg a l értékét");
-int l = Convert.ToInt32(Console.ReadLine());
-if ((l % 2 == 0) && (l >= 0)) 
+
+Console.WriteLine("adj meg egy telefon számot 06 után");
+string telefonszam = Console.ReadLine();
+
+if (telefonszam.Length == 9)
 {
-	// páros és pozitív
+	Console.WriteLine("valos telefon szám:");
+	if (telefonszam[0] == '3') Console.WriteLine("Telekom");
+	if (telefonszam[0] == '7') Console.WriteLine("vodafon");
+	if (telefonszam[0] == '2') Console.WriteLine("yettel");
 }
-else if(!((l % 2 == 0) && (l >= 0)))
+else Console.WriteLine("nem valós telefonszám");
+
+switch (telefonszam.Length)
 {
-	// páratlan és negatív
-}else if ((l % 2 == 0) && !(l >= 0))
-{
-	// páros és negatív
-}
-else if (!(l % 2 == 0) && (l >= 0))
-{
-	// páratlan és pozitív
+	case 9:
+		Console.WriteLine("valós szám");
+		switch(telefonszam[0])
+		{
+			case '3': Console.WriteLine("Telekom"); break;
+			case '7': Console.WriteLine("vodafon");break;
+			case '2': Console.WriteLine("yettel");break;
+		}
+		break;
+	default: Console.WriteLine("nem valós telefonszám"); break;
 }
 
 
-//----------------------------------------------
-// RANDOM
+// random
+
 Random r = new Random();
-int random1 = r.Next(10); //[0,9]
-int random2 = r.Next(7); //[0,6]
-int random3 = r.Next(101); // [0,100]
-
-// [-50, 50]
-int random4 = r.Next(101)-50;
-// [-100, 100]
-int random5 = r.Next(201)-100;
-// [1,60]
-int random6 = r.Next(60)+1;
-// [-15,-5]
-int random7 = r.Next(11)-15;
-
-// 2 paraméteres next
-Random r2 = new Random();
-// [-50, 50]
-int random8 = r2.Next(-50, 51);
-// [-100, 100]
-int random9 = r2.Next(-100, 101);
+int rand = r.Next(11); //[0, 10]
+int rand2 = r.Next(9)+2; //[2, 10]
+int rand3 = r.Next(53)-2; //[-2, 50]
+int rand4 = r.Next(-29)-20; //[-20, -50]
 
 /*
- Készítsen egy programot, amely generál egy random számot
-[1,6] intervallumban. Majd kér egy tippet a felhasználótól
-ha eltalálta a felh, írja ki hogy sikerült eltalálnia, ha nem
-írja ki mire gondolta a gép.
+ generálj 6,10 között számot, 
+majd a *,/, +, - végezzük el
  */
 
-Random r4 = new Random();
-int randomSzam = r4.Next(1, 7);
-Console.WriteLine("Kérlek add meg a tipped");
-int tipp = Convert.ToInt32(Console.ReadLine());
-if (randomSzam == tipp)
-{
-	Console.WriteLine("Eltaláltad");
-}
-else
-{
-	Console.WriteLine($"Nem sikerült! Amire én gondoltam az a {randomSzam}");
-}
+Random r1 = new Random();
+int szam1 = r1.Next(5)+6; //6,10
+int szam2 = r1.Next(5)+6;
+Console.WriteLine($"{szam1}+{szam2}={szam1 + szam2}");
+Console.WriteLine($"{szam1}-{szam2}={szam1 - szam2}");
+Console.WriteLine($"{szam1}*{szam2}={szam1 * szam2}");
+Console.WriteLine(
+	(szam1 < szam2) 
+	? $"{szam1}/{szam2}={szam1 / Convert.ToDouble(szam2)}" 
+	: $"{szam2}/{szam1}={szam2 / Convert.ToDouble(szam1)}"
+);
+
+//RANDOM-------------------------
 
 /*
-	2 random számot [1,10] készítsünk és 
-	számoljuk ki az összegüket, kivonásukat, 
-	szorzatukat, hányadosukat
+ Számítsuk ki 5 véletlen [50,110] szám összegét, átlagát és írjuk ki a képernyőre
  */
-Random random = new Random();
-int num1 = random.Next(10)+1; //vagy .Next(1,11);
-int num2 = random.Next(10) + 1;
-Console.WriteLine($"{num1}+{num2}={num1 + num2}");
-Console.WriteLine($"{num1}-{num2}={num1 - num2}");
-Console.WriteLine($"{num1}*{num2}={num1 * num2}");
-Console.WriteLine($"{num1}/{num2}={num1 / Convert.ToDouble(num2)}");
+
+Random r3 = new Random();
+int sz1 = r3.Next(61) + 50;
+int sz2 = r3.Next(61) + 50;
+int sz3 = r3.Next(61) + 50;
+int sz4 = r3.Next(61) + 50;
+int sz5 = r3.Next(61) + 50;
+double osszeg = sz1 + sz2 + sz3 + sz4 + sz5;
+Console.WriteLine($"összeg: {osszeg}");
+Console.WriteLine($"átlag: {osszeg / 5}");
+
+/*
+ Készítsünk egy kö/papír/olló programot
+A gép [1,3] között generál
+1-->kő
+2-->papírt
+3-->ollót
+kérjen be egy számot a felhtól, 
+if else legyen megoldva a logika
+ */
+
+Random random10 = new Random();
+int gepSzam = random10.Next(3) + 1;
+Console.WriteLine("Adj egy számot (1-3)[kő, papír, olló]");
+int felhSzam = Convert.ToInt32(Console.ReadLine());
+// kiíratom a gép mire gondolt
+Console.Write("Gép: ");
+switch (gepSzam)
+{
+	case 1: Console.WriteLine("KŐ"); break;
+	case 2: Console.WriteLine("Papír"); break;
+	case 3: Console.WriteLine("Olló"); break;
+}
+// kiíratom, hogy a felh. mire gondolt
+Console.Write("Felh: ");
+switch (felhSzam)
+{
+	case 1: Console.WriteLine("KŐ"); break;
+	case 2: Console.WriteLine("Papír"); break;
+	case 3: Console.WriteLine("Olló"); break;
+}
+
+if (gepSzam == felhSzam) Console.WriteLine("Döntetlen");
+else if (gepSzam == 1 && felhSzam == 3
+	|| gepSzam == 2 && felhSzam == 1
+	|| gepSzam == 3 && felhSzam == 2
+	) Console.WriteLine("gép győzött");
+else Console.WriteLine("én nyertem");
 ```

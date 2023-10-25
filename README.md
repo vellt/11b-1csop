@@ -42,7 +42,7 @@ if (szam1 < szam2)
 }
 else
 {
-	Console.WriteLine($"osztás eredménye: {(Convert.ToDouble(szam2/szam1)):0.0000}");
+	Console.WriteLine($"osztás eredménye: {(Convert.ToDouble(szam2)/szam1):0.0000}");
 }
 
 // 3. feladat

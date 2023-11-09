@@ -1,172 +1,168 @@
 ```c#
-/* Intervallumok képzése a randommal */
-Random r = new Random();
-int sz1= r.Next(10); // [0,9]
-// [10,60]
-int sz2 = r.Next(51) + 10;
-// [15,30]
-int sz3 = r.Next(16) +15;
-// [-1,20]
-int sz4 = r.Next(22)-1;
-// [-20,21]
-int sz5 = r.Next(42)-20;
-// [-20, -5]
-int sz6 = r.Next(16)-20;
-// [-5, -2]
-int sz7 = r.Next(4)-5;
-
-/*
- Állítsunk elő véletlen számot [0,10], a generált számot
-írjuk ki, majd döntsük el hogy páros vagy páratlan
- */
-Random r2 = new Random();
-int x = r2.Next(11); // [0,10]
-Console.Write($"a szám: {x} ");
-if (x % 2 == 0)
-{
-	Console.WriteLine("páros");
-}
-else
-{
-	Console.WriteLine("páratlan");
-}
-
-/* Random generáljuk 2 számot [10,20], és írjuk ki
- * az értékeiket. Majd döntsük el
- * hogy melyik a nagyobb, ha egyenlő írjuk ki hogy a két
- szám az egyenlő. */
-
-Random r4 = new Random();
-int szam1 = r4.Next(11)+10;
-int szam2 = r4.Next(11)+10;
-Console.WriteLine($"szam1: {szam1}, szam2: {szam2}");
-if (sz1 == sz2) Console.WriteLine("A kettő szám egyenlő");
-else if (szam1 > szam2) Console.WriteLine("Az első szám a nagyobb");
-else Console.WriteLine("A második szám a nagyobb");
-
-// logikai kapuk
-// AND (és): &&
-// OR (vagy): ||
-// NOT (negálás): !
-
-/*
- * 3 random számot [15,30] kell generáléni és kiiírni, hogy lássuk mi generálódott!
- ellenőrízzük hogy a 3szög szerkeszthető-e. 
-hogyan? akkor szerkeszthető, ha (a+b>c) és (a+c>b) és (b+c>a) 
- */
-Random r5 = new Random();
-int a = r5.Next(16)+15;
-int b = r5.Next(16)+15;
-int c = r5.Next(16)+15;
-
-if ((a + b > c) && (a + c > b) && (b + c > a))
-{
-	Console.WriteLine("3szög szerkeszthető");
-}
-else
-{
-	Console.WriteLine("3szög nem szerkeszthető");
-}
-
-/*
- vizsgáljuk meg h egy szám osztható-e a másikkal, maradék
-nélkül. intervallum= [1,10]
- */
-Random r6 = new Random();
-int x1 = r6.Next(10)+1;
-int x2 = r6.Next(10)+1;
-Console.WriteLine($"{x1} {x2}");
-if (x1 % x2 == 0)
-{
-	Console.WriteLine($"{x1} osztható maradék nélkül {x2} számmal");
-}
-else
-{
-	Console.WriteLine($"{x1} NEM oszható m.n. {x2} számmal");
-}
-
-/*
- biztons. őr 3 dolgot állapít meg egy illetőröl:
-alkohol szaga van, 1 vagy 0 érték 
-bizonytalanul mozog, 1 vagy 0 érték
-nincs-e fegyvere, 1 vagy 0 érték
-
-ezekhez 3 akció társul:
---> ("kockázatos"): "alkohol szaga van" ÉS "bizonytalanul mozog"
-	--> kidobja az illetőt
---> ("veszélyes"): "alk. szaga van" ÉS "Biz. mozog" ÉS "Fegyvere van"
-	--> hivja a rendőrt
---> ("gyanus"):  "alk. szaga van" VAGY "Biz. mozog" VAGY "Fegyvere van"
-	--> figyeli
- */
-Random r7 = new Random();
-int alkohol = r7.Next(2);
-int mozg = r7.Next(2);
-int fegyver = r7.Next(2);
-switch (alkohol)
-{
-	case 1: Console.WriteLine("Nincs alkohol szaga"); break;
-	default: Console.WriteLine("Alkholszaga van");break;
-}
-switch (mozg)
-{
-	case 1: Console.WriteLine("Bizonytalanul mozog"); break;
-	default: Console.WriteLine("Nem mozog biz.nul"); break;
-}
-switch (fegyver)
-{
-	case 1: Console.WriteLine("van fegyvere"); break;
-	default: Console.WriteLine("nincs fegyvere"); break;
-}
-
-if(alkohol==1  && mozg == 1)
-{
-	Console.WriteLine("kidobja az illetőt");
-}
-if(alkohol==1 && mozg==1 && fegyver == 1)
-{
-	Console.WriteLine("hivja a rendőrt");
-}
-if (alkohol == 1 || mozg == 1 || fegyver == 1)
-{
-	Console.WriteLine("figyeli");
-}
-
-
-/* random generáljunk 3 értéket [-5,10] 
- * végezzünk statisztikát a számokkal */
 Random random = new Random();
-int n1 = random.Next(16)-5;
-int n2 = random.Next(16)-5;
-int n3 = random.Next(16)-5;
+int sz = random.Next(10); //[0,9]
+//[2,10]
+int sz1 = random.Next(9)+2;
+//[5,10]
+int sz2 = random.Next(6)+5;
+//[-5,10]
+int sz3 = random.Next(16)-5;
+// [-2,2]
+int sz4 = random.Next(5)-2;
+// [-10,-5]
+int sz5 = random.Next(6)-10;
+// [-30, -20]
+int sz6 = random.Next(11)-30;
 
-// hány pozitív van 
-int szamlalo = 0;
-if (n1 >= 0) szamlalo++;
-if (n2 >= 0) szamlalo++;
-if (n3 >= 0) szamlalo++;
-Console.WriteLine($"{szamlalo} enNyi pozitiv szám van.");
+// generáljunk le 3 random számot [-100, 50]
+// írjuk ki az értéküket
+Random random1 = new Random();
+int szam1 = random1.Next(151) - 100;
+int szam2 = random1.Next(151) - 100;
+int szam3 = random1.Next(151) - 100;
+Console.WriteLine($"{szam1} {szam2} {szam3}");
 
-// hány negatív van
-int nszamlalo = 0;
-Console.WriteLine($"{n1} {n2} {n3}");
-if (n1 < 0) nszamlalo = nszamlalo + 1;
-if (n2 < 0) nszamlalo = nszamlalo + 1;
-if (n3 < 0) nszamlalo = nszamlalo + 1;
-Console.WriteLine($"Ennyi negatív szám van:{nszamlalo}");
+// 1. mennyi páros ebből és mennyi a páratlan
+int parosDarab = 0;
+int paratlanDarab = 0;
+if (szam1 % 2 == 0)
+{
+	// páros
+	parosDarab++;
+	//parosDarab=parosDarab+1;
+	//parosDarab+=1;
+}else
+{
+	// páratlan
+	paratlanDarab++;
+}
 
-// mennyi az átlaguk, 2 tizedesre kerekítve 
-// osztásnál ügyelni, hogy egyik tag double legyen
-double atlag = (n1 + n2 + n3) / 3.0;
-Console.WriteLine($"{atlag:0.00}");
+if (szam2 % 2 == 0) parosDarab++;
+else paratlanDarab++;
 
-// mennyi páros van
-int pszamlalo = 0;
-if (n1 % 2 == 0) pszamlalo++;
-if (n2 % 2 == 0) pszamlalo++;
-if (n3 % 2 == 0) pszamlalo++;
-Console.WriteLine($"ennyi van: {pszamlalo}");
+if (szam3 % 2 == 0) parosDarab++;
+else paratlanDarab++;
 
+Console.WriteLine($"páros: {parosDarab},\npáratlan: {paratlanDarab}");
+
+// mennyi a pozitív és mennyi a negatív ebből
+int pozitivDarab = 0;
+int negativDarab = 0;
+if (szam1 >= 0) pozitivDarab++;
+else negativDarab++;
+if (szam2 >= 0) pozitivDarab++;
+else negativDarab++;
+if (szam3 >= 0) pozitivDarab++;
+else negativDarab++;
+Console.WriteLine($"poz: {pozitivDarab},\nneg: {negativDarab}");
+
+// átlag, kerekítés 4 tizedre
+double atlag = Convert.ToDouble(szam1 + szam2 + szam3) / 3.0;
+Console.WriteLine($"átlaguk: {atlag:0.0000}");
+Console.WriteLine($"átlaguk: {Math.Round(atlag,4)}");
+
+
+string korso = "viz";
+string pohar = "cola";
+Console.WriteLine($"korso {korso}, pohar {pohar}");
+string urespohar = korso;
+korso = pohar;
+pohar = urespohar;
+Console.WriteLine($"korso {korso}, pohar {pohar}");
+
+int x = 10;
+int y = 5;
+Console.WriteLine($"{x} {y}");
+//csere
+int temp = x;
+x = y;
+y = temp;
+Console.WriteLine($"{x} {y}");
+
+// hogyan lehet, (ugye van 3 változónk), a random
+// számainknak az értékét megcserélni, szam1 csere szam2-vel
+int temp2 = szam1;
+szam1 = szam2;
+szam2 = temp2;
+Console.WriteLine($"{szam1} {szam2} {szam3}");
+
+// növekvő sorrendbe tenni a 3 random számot
+
+//szam1, szam2, szam3
+Random random2 = new Random();
+int num1 = random2.Next(151) - 100;
+int num2 = random2.Next(151) - 100;
+int num3 = random2.Next(151) - 100;
+Console.WriteLine($"{num1} {num2} {num3}");
+if (num1 > num2)
+{
+	int temp1 = num1;
+	num1 = num2;
+	num2 = temp1;
+}
+if (num1 > num3)
+{
+	int temp1 = num1;
+	num1 = num3;
+	num3 = temp1;
+}
+if (num2 > num3)
+{
+	int temp1 = num2;
+	num2 = num3;
+	num3 = temp1;
+}
+Console.WriteLine($"{num1} {num2} {num3}");
+
+// while, do-while ciklus
+// elöltesztelős ciklus: while
+// hátultesztelős: do-while
+// elöltesztelő ciklus (while): egy olyan ciklus, ami ellenörzi a fetételt, és
+// addig fut, ismétli a ciklus magot, AMÍG a feltétel igaz
+
+// hátlultesztelős (do while): mindenféleképpen 1x lefut, és első lefutás után
+// ellenőrzi, hogy igaz-e a feltétel, és
+// addig fut, ismétli a ciklus magot, AMÍG a feltétel igaz
+
+int szam = 6;
+while (szam>4)
+{
+	Console.WriteLine("while");
+	Console.WriteLine("igen kisebb mint 4");
+}
+
+do
+{
+	Console.WriteLine("do while");
+	Console.WriteLine("igen kisebb mint 4");
+} while (szam < 4);
+
+// kisebb feladatok:
+// 6-10ig szám kiiratása while ciklussal
+int szamlalo = 6;
+while (szamlalo<=10)
+{
+	Console.WriteLine(szamlalo);
+	szamlalo++;
+	
+}
+
+//írjuk ki a páros számokat 2-10 között
+int szamlslo2 = 2;
+while (szamlslo2<=10)
+{
+	if (szamlslo2 % 2 == 0) Console.WriteLine(szamlslo2);
+	szamlslo2++;
+}
+
+// írjuk ki 10től 1ig a számokat csökkenő sorrendben
+
+int szamlalo3 = 10;
+while (szamlalo3 >= 1) 
+{
+	Console.WriteLine(szamlalo3);
+	szamlalo3--;
+}
 
 Console.ReadKey();
 ```

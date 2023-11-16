@@ -1,168 +1,187 @@
 ```c#
+/*
+ összetett logikai kifejezések
+(>, <, >=, <=, ==, !=)-->(&&, ||)
+ 
+ if struktúrák-->switch-ccsé alakítása
+
+egyparaméteres random számokkal való műveletek
+
+3, vagy több elem növekvő/csökkenő sorrendbe való cserélgetése
+
+while, do while ciklusokkal feladatok
+ */
+
+
+// if-->switch----------------------------------
+// szabályok:
+// if feltételben "=="-t látunk
+// de hogyha >, >=, !=, < , &&, || --> azok nem alakíthatóak át, 
+// a switch csak ==-t tud kezelni
+// ==-jel jobb oldalán különböző konstansnak kell lennie
+// ==-jel bal oldalán változónak kell lenni, ha több feltétel
+// van akkor mindegyikben egyforma változónak kell lennie
+// if if if if if ---> az nem alakítható át swich-é
+// ha if, else if, else if....else ---> átalakítható
+
+
+int a = 7;
+int b = 8;
+int c = 10;
+if (a == b) Console.WriteLine("a és b egyenlő");
+else if (a == c) Console.WriteLine("a és c egyenlő");
+else Console.WriteLine("a nem egyenlő b-vel és c-vel sem");
+// nem alakítható át, mert az ==-jel jobb oldalán változó van,
+// nem pedig konstans
+switch (a)
+{
+	case b: Console.WriteLine("a és b egyenlő"); break;
+	case c: Console.WriteLine("a és c egyenlő"); break;
+	default: Console.WriteLine("a nem egyenlő b-vel és c-vel sem"); break;
+}
+
+int vegosszeg = 10_000;
+string kedvezeny = "10%";
+if (kedvezeny == "10%") Console.WriteLine(vegosszeg*0.9);
+else if (kedvezeny == "30%") Console.WriteLine(vegosszeg*0.7);
+else if (kedvezeny == "50%") Console.WriteLine(vegosszeg*0.5);
+else Console.WriteLine("nállunk nincs ilyen kedvezmény");
+// igen átalakítható
+switch (kedvezeny)
+{
+	case "10%": Console.WriteLine(vegosszeg * 0.9); break;
+	case "30%": Console.WriteLine(vegosszeg * 0.7); break;
+	case "50%": Console.WriteLine(vegosszeg * 0.5); break;
+	default: Console.WriteLine("nállunk nincs ilyen kedvezmény"); break;
+}
+
+// kövi
+
+int ora = 12;
+int perc = 30;
+if(ora==10 && perc == 30)
+{
+	Console.WriteLine("Még van 2 órám kezdésig");
+}else if (ora == 12)
+{
+	Console.WriteLine("Még van 2 órám");
+}
+else
+{
+	Console.WriteLine("Elkéstem");
+}
+// azért nem alakítható át, mert az első if-ben 
+// AND operátor van (&&)
+
+int eredmeny = 5;
+if (eredmeny == 5) Console.WriteLine("jeles");
+else if (eredmeny == 4) Console.WriteLine("jó");
+else if (eredmeny == 3) Console.WriteLine("közepes");
+else if (eredmeny == 2) Console.WriteLine("elégsége");
+else if (eredmeny == 1) Console.WriteLine("elégtelen");
+// ez igy átalakítható, bár ha csak else if helyett if lenne
+// akk az már nem írható fel switchel egyazonos funkcionaliztással
+
+switch (eredmeny)
+{
+	case 5: Console.WriteLine("jeles"); break;
+	case 4: Console.WriteLine("jó"); break;
+	case 3: Console.WriteLine("közepes"); break;
+	case 2: Console.WriteLine("elégsége"); break;
+	case 1: Console.WriteLine("elégtelen"); break;
+}
+
+// 3 random szám [-200,50]
+// csökkenő
+
 Random random = new Random();
-int sz = random.Next(10); //[0,9]
-//[2,10]
-int sz1 = random.Next(9)+2;
-//[5,10]
-int sz2 = random.Next(6)+5;
-//[-5,10]
-int sz3 = random.Next(16)-5;
-// [-2,2]
-int sz4 = random.Next(5)-2;
-// [-10,-5]
-int sz5 = random.Next(6)-10;
-// [-30, -20]
-int sz6 = random.Next(11)-30;
-
-// generáljunk le 3 random számot [-100, 50]
-// írjuk ki az értéküket
-Random random1 = new Random();
-int szam1 = random1.Next(151) - 100;
-int szam2 = random1.Next(151) - 100;
-int szam3 = random1.Next(151) - 100;
+int szam1 = random.Next(251)-200;
+int szam2 = random.Next(251)-200;
+int szam3 = random.Next(251)-200;
+Console.WriteLine($"{szam1} {szam2} {szam3}");
+if (szam1 < szam2)
+{
+	//csere
+	int temp = szam2;
+	szam2 = szam1;
+	szam1 = temp;
+}
+if (szam1 < szam3)
+{
+	// csere
+	int temp = szam3;
+	szam3 = szam1;
+	szam1 = temp;
+}
+if (szam2 < szam3)
+{
+	//csere
+	int temp = szam3;
+	szam3 = szam2;
+	szam2 = temp;
+}
 Console.WriteLine($"{szam1} {szam2} {szam3}");
 
-// 1. mennyi páros ebből és mennyi a páratlan
-int parosDarab = 0;
-int paratlanDarab = 0;
-if (szam1 % 2 == 0)
+// ciklusok
+// while, do while
+
+// 15 *-t írjunk ki
+int szamlalo = 1;
+while (szamlalo != 16)
 {
-	// páros
-	parosDarab++;
-	//parosDarab=parosDarab+1;
-	//parosDarab+=1;
-}else
-{
-	// páratlan
-	paratlanDarab++;
-}
-
-if (szam2 % 2 == 0) parosDarab++;
-else paratlanDarab++;
-
-if (szam3 % 2 == 0) parosDarab++;
-else paratlanDarab++;
-
-Console.WriteLine($"páros: {parosDarab},\npáratlan: {paratlanDarab}");
-
-// mennyi a pozitív és mennyi a negatív ebből
-int pozitivDarab = 0;
-int negativDarab = 0;
-if (szam1 >= 0) pozitivDarab++;
-else negativDarab++;
-if (szam2 >= 0) pozitivDarab++;
-else negativDarab++;
-if (szam3 >= 0) pozitivDarab++;
-else negativDarab++;
-Console.WriteLine($"poz: {pozitivDarab},\nneg: {negativDarab}");
-
-// átlag, kerekítés 4 tizedre
-double atlag = Convert.ToDouble(szam1 + szam2 + szam3) / 3.0;
-Console.WriteLine($"átlaguk: {atlag:0.0000}");
-Console.WriteLine($"átlaguk: {Math.Round(atlag,4)}");
-
-
-string korso = "viz";
-string pohar = "cola";
-Console.WriteLine($"korso {korso}, pohar {pohar}");
-string urespohar = korso;
-korso = pohar;
-pohar = urespohar;
-Console.WriteLine($"korso {korso}, pohar {pohar}");
-
-int x = 10;
-int y = 5;
-Console.WriteLine($"{x} {y}");
-//csere
-int temp = x;
-x = y;
-y = temp;
-Console.WriteLine($"{x} {y}");
-
-// hogyan lehet, (ugye van 3 változónk), a random
-// számainknak az értékét megcserélni, szam1 csere szam2-vel
-int temp2 = szam1;
-szam1 = szam2;
-szam2 = temp2;
-Console.WriteLine($"{szam1} {szam2} {szam3}");
-
-// növekvő sorrendbe tenni a 3 random számot
-
-//szam1, szam2, szam3
-Random random2 = new Random();
-int num1 = random2.Next(151) - 100;
-int num2 = random2.Next(151) - 100;
-int num3 = random2.Next(151) - 100;
-Console.WriteLine($"{num1} {num2} {num3}");
-if (num1 > num2)
-{
-	int temp1 = num1;
-	num1 = num2;
-	num2 = temp1;
-}
-if (num1 > num3)
-{
-	int temp1 = num1;
-	num1 = num3;
-	num3 = temp1;
-}
-if (num2 > num3)
-{
-	int temp1 = num2;
-	num2 = num3;
-	num3 = temp1;
-}
-Console.WriteLine($"{num1} {num2} {num3}");
-
-// while, do-while ciklus
-// elöltesztelős ciklus: while
-// hátultesztelős: do-while
-// elöltesztelő ciklus (while): egy olyan ciklus, ami ellenörzi a fetételt, és
-// addig fut, ismétli a ciklus magot, AMÍG a feltétel igaz
-
-// hátlultesztelős (do while): mindenféleképpen 1x lefut, és első lefutás után
-// ellenőrzi, hogy igaz-e a feltétel, és
-// addig fut, ismétli a ciklus magot, AMÍG a feltétel igaz
-
-int szam = 6;
-while (szam>4)
-{
-	Console.WriteLine("while");
-	Console.WriteLine("igen kisebb mint 4");
-}
-
-do
-{
-	Console.WriteLine("do while");
-	Console.WriteLine("igen kisebb mint 4");
-} while (szam < 4);
-
-// kisebb feladatok:
-// 6-10ig szám kiiratása while ciklussal
-int szamlalo = 6;
-while (szamlalo<=10)
-{
-	Console.WriteLine(szamlalo);
+	Console.WriteLine("*");
 	szamlalo++;
+}
+
+// *
+// **
+// ***
+// ****
+// *
+int szamlalo2 = 0;
+while (szamlalo2!=4)
+{
+	szamlalo2++;
+	int belsoSzamlalo = 0;
+	while (belsoSzamlalo!=szamlalo2)
+	{
+		Console.Write("*");
+		belsoSzamlalo++;
+	}
+	Console.WriteLine();
+	if (szamlalo2 == 4) Console.WriteLine("*");
+}
+
+// kérj be egy x, és egy y-t
+// (y legyen nagyobb mint az x)
+// x-től y-ig, 
+// az aktuális értéknek irja ki a négyzetét
+// 1-->1, 2-->4, 3-->9
+
+Console.WriteLine("Add meg az x értékét");
+int x = Convert.ToInt32(Console.ReadLine());
+
+Console.WriteLine("Add meg az y értékét");
+int y = Convert.ToInt32(Console.ReadLine());
+
+while (x!=(y+1))
+{
+	Console.WriteLine($"{x}-->{x*x}");
+	Console.WriteLine($"{x}-->{Math.Pow(x,2)}");
+	x++;
+}
+
+// írassa ki 99-től 1-ig
+// kiíratni az összes pozitív, 3al osztható egész
+// számot
+
+int szamlalo3 = 99;
+while (szamlalo3!=0)
+{
+	if(szamlalo3 % 2==0 && szamlalo3 % 3==0)
+		Console.WriteLine(szamlalo3);
 	
-}
-
-//írjuk ki a páros számokat 2-10 között
-int szamlslo2 = 2;
-while (szamlslo2<=10)
-{
-	if (szamlslo2 % 2 == 0) Console.WriteLine(szamlslo2);
-	szamlslo2++;
-}
-
-// írjuk ki 10től 1ig a számokat csökkenő sorrendben
-
-int szamlalo3 = 10;
-while (szamlalo3 >= 1) 
-{
-	Console.WriteLine(szamlalo3);
+	
 	szamlalo3--;
 }
-
-Console.ReadKey();
 ```

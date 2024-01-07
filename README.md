@@ -1,97 +1,124 @@
 ```c#
-// while ciklus ismétlés
-Random r = new Random();
-int gep = r.Next(100)+1;
-int tipp = 0;
-int lepes = 0;
-while (gep!=tipp)
+// printeljük ki, mit látunk?
+int sz1 = 65;
+int sz2 = 76;
+int sz3 = 77;
+int sz4 = 65;
+Console.WriteLine($"{sz1} {sz2} {sz3} {sz4}");
+
+// és most?
+Console.WriteLine($"{(char)sz1} {(char)sz2} {(char)sz3} {(char)sz4}");
+
+// az 'a' kódbeli értéke (ASCII kódtáblabeli azonosítója-->dec)
+Console.WriteLine((int)'a');
+// az 'z' kódbeli értéke (ASCII kódtáblabeli azonosítója-->dec)
+Console.WriteLine((int)'z');
+
+//A-->a
+Console.WriteLine((char)(65+32));
+//b-->B
+Console.WriteLine((char)(98-32));
+
+// alakítsuk nagybetűssé az "x, y, z"-t pl--> X, Y, Z
+Console.WriteLine($"{'x' - 32} {'y' - 32} {'z' - 32}");
+
+// A kisbetűs angolszász abc kiíratása, ehhez meg kell keresni
+// az 'a' és a 'z' azonosítóját, amit korábban megtettünk
+for (int i = 97; i <= 122; i++)
 {
-	Console.Write("adj egy tippet: ");
-	tipp = Convert.ToInt32(Console.ReadLine());
-	if (tipp > gep) Console.WriteLine("kisebbre gondoltam");
-	if (tipp < gep) Console.WriteLine("nagyobbra gondoltam");
-	lepes++;
+	Console.WriteLine((char)i);
 }
-Console.WriteLine($"eltaláltad, {lepes} lépéssel");
 
-
-// 5 random szám [0,50]
-// egymás mellé szóközökkel elválasztva
-Random random = new Random();
-for (int i = 0; i < 5; i++)
+// A nagybetűs angolszász abc kiíratása (32-vel eltolva kisbetűsöket kapunk)
+for (int i = 97 - 32; i <= 122 - 32; i++)
 {
-	int szam = random.Next(51);
-	Console.Write($"{szam} ");
+	Console.WriteLine((char)i);
 }
-Console.WriteLine();
 
-// képezzünk 40 random számot [50,99]-ben és egymás mellé csak 8-at írunk ki,
-// azaz minden 8. számnál alkalmazzon sortörést
-for (int i = 1; i <=40; i++)
+// szöveg mint tömb ------------------------------------------------------------
+string beka = "beka";
+Console.WriteLine(beka.Length); // 4 <--szöveg hossza
+Console.WriteLine(beka[0]);// 'b' <--- az 1. indexet adja vissza
+Console.WriteLine((int)beka[0]);// 98-as indexű ASCII kód
+
+// Kérd be a neved kisbetűsen, és alakítsd át nagybetűssé
+Console.WriteLine("Add meg a neved");
+string nev = Console.ReadLine();
+for (int i = 0; i < nev.Length; i=i+1)
 {
-	int szam = random.Next(50)+50;
-	Console.Write($"{szam} ");
-	if (i % 8 == 0)
+	Console.Write((char)(nev[i]-32)); // -32-el eltolva nagybetűset kapunk
+}
+Console.WriteLine(); // erre azért van szüksége mert igy végül a kiíratott név után tesz egy sortörést
+
+
+
+// keressük meg, hogy a nevünkben van-e 'e' betű
+int szamlalo = 0;
+for (int i = 0; i < nev.Length; i = i + 1)
+{
+	if (nev[i] == 'e')
 	{
-		Console.WriteLine();
+		szamlalo++;
+	}
+}
+if (szamlalo > 0) 
+{
+	Console.WriteLine($"Van benne 'e' betű. Méghozzá: {szamlalo} db");
+}
+
+// hány db magánhangzó van a bekért szövegben?
+Console.WriteLine("Adj meg egy szöveget");
+string szoveg = Console.ReadLine();
+int darabszam = 0;
+for (int i = 0; i < szoveg.Length; i++)
+{
+	
+	if(
+		szoveg[i]=='a'      || 
+		szoveg[i] == 'e'    || 
+		szoveg[i] == 'i'    || 
+		szoveg[i] == 'u'    || 
+		szoveg[i] == 'o'
+		)
+	{
+		darabszam++;
+	}
+}
+Console.WriteLine($"Ennyi db magánhangzó volt: {darabszam}");
+
+// az előző feladatban lévő bekért szöveg összes magánhangzóját alakítsuk át i-betűvé
+for (int i = 0; i < szoveg.Length; i++)
+{
+
+	if (
+		szoveg[i] == 'a'    || 
+		szoveg[i] == 'e'    || 
+		szoveg[i] == 'u'    || 
+		szoveg[i] == 'o'
+		)
+	{
+		Console.Write('i'); // az magánhangzók helyére i-betűt
+	}
+	else
+	{
+		Console.Write(szoveg[i]); // minden másra az eredeti betűt íratjuk ki
 	}
 }
 
-// készítsen egy oktatóprogramot, amely megkérdezi a felhasználót, hogy
-// mennyi feladatot készítsen. A feladatok az osztást, szorzást, kivonást, összeadást gyakoroltassa
-// a számok amikkel dolgozzon meg [1,9]-ban legyenek
-// egy feladat kiírása, nézzen ki így: 6 + 9 =
-// ha a felhasználó által megadott szám az helyes,
-// növelje a helyes válaszainak a számát eggyel
-// a végén írassa ki hány pontot szerzett a mennyiből
-// és adja meg annak az értékét százalékosan is, majd osztályoza le a feladatsorát
-Console.WriteLine("OKTATÓ PROGRAM");
-Console.WriteLine("add meg hány db feladatot szeretnél?");
-int feladatDBSzam = Convert.ToInt32(Console.ReadLine());
-int pont = 0;
-for (int i = 1; i <= feladatDBSzam; i++)
+// alakítsuk át a nevünket nagybetűssé
+string nev2 = "benjamin";
+for (int i = 0; i < nev2.Length; i++)
 {
-	int szam1 = random.Next(9)+1;
-	int szam2 = random.Next(9)+1;
-	int op = random.Next(4)+1;
-	double valasz = 0;
-	switch (op)
-	{
-		case 1:
-			// +
-			Console.Write($"{szam1} + {szam2} = ");
-			valasz = Convert.ToInt32(Console.ReadLine());
-			if (valasz == szam1 + szam2) pont++;
-			break;
-		case 2:
-			// -
-			Console.Write($"{szam1} - {szam2} = ");
-			valasz = Convert.ToInt32(Console.ReadLine());
-			if (valasz == szam1 - szam2) pont++;
-			break;
-		case 3:
-			// *
-			Console.Write($"{szam1} * {szam2} = ");
-			valasz = Convert.ToInt32(Console.ReadLine());
-			if (valasz == szam1 * szam2) pont++;
-			break;
-		case 4:
-			// /
-			Console.Write($"{szam1} / {szam2} = ");
-			valasz = Convert.ToDouble(Console.ReadLine());
-			if (valasz == (double)szam1 / szam2) pont++;
-			break;
-	}
+	Console.WriteLine((char)(nev2[i]-32)); // kisbtű-->NAGYBETŰ -32vel eltolom
 }
-Console.WriteLine($"pontod: {pont}/{feladatDBSzam}");
-double szazalek = (double)pont / feladatDBSzam * 100;
-Console.WriteLine($"{Math.Round(szazalek, 2)}%");
 
-if (szazalek > 90) Console.WriteLine("jeles (5)");
-else if (szazalek > 80) Console.WriteLine("jó (4)");
-else if (szazalek > 70) Console.WriteLine("közepes (3)");
-else if (szazalek > 60) Console.WriteLine("elégséges (2)");
-else Console.WriteLine("elégtelen (1)");
+// nem mindegy a konstanst hogyan írjuk, meglehet nézni, hogy mi van akkor ha a szám körül
+// "" van vagy '' vagy pedig nincs semmi vagy pedig a szám után egy .0 van, ezek mind mást típust eredményeznek
+Console.WriteLine("6".GetType()); //string
+Console.WriteLine('6'.GetType()); // char
+Console.WriteLine(6.GetType()); // int
+Console.WriteLine(6.0.GetType()); // double
+
 
 Console.ReadKey();
 ```

@@ -1,172 +1,135 @@
 ```c#
 static void Main(string[] args)
 {
-	// egy 'a' karakterből kinyerni az ASCII beli értékét
-	char karakter = 'a';
-	Console.WriteLine((int)karakter);
-
-	// egy ASCII beli számból kinyerni a karakteres értékét
-	int ASCII = 97;
-	Console.WriteLine((char)ASCII);
-
-	// hogyan alakítjuk át a kisbetűket nagybetűkké
-	// 1. lépés: meghatározom az 'a' értékét, és az 'A'
-	//           értékét, majd megnézem a kettő közötti
-	//           differenciát.
-	// 2. lépés: ha már tudom hogy -32-t kell elvonnom a kisbetűből
-	//           hogy nagy betűt kapjak, megtudom határozni,
-	//           hogy x-->X legyen
-	Console.WriteLine((int)'a');
-	Console.WriteLine((int)'A');
-	char x = 'x';
-	Console.WriteLine((char)(x-32));
-
-	// hogyan tudom a kert első indexelhető elemét lehivatkozni?
-	string sz = "kert";
-	Console.WriteLine(sz[0]); // k
-	// hogyan tudom kert első indexelhető elemét lehivathozni?
-	Console.WriteLine(sz[sz.Length-1]); // t
-
-	// minden második karakter legyen nagybetűs
-	// pl: aztalon-->aZtAlOn
-	for (int i = 0; i < sz.Length; i++)
+	// keresse meg a bekért szám legnagyobb és a legkissebb értékű karakter indexét.
+	// Majd vonja ki a legnagyobból a legkisebbet. Ez a szám milyen karakternek felel meg.
+	string bekertSzoveg = Console.ReadLine();
+	int minIndex = 0;
+	int maxIndex = 0;
+	for (int i = 0; i < bekertSzoveg.Length; i++)
 	{
-		if (i % 2 != 0) 
-			Console.Write((char)(sz[i]-32));
-		else
-			Console.Write(sz[i]);
+		if (((int)bekertSzoveg[i]) < ((int)bekertSzoveg[minIndex]))
+		{
+			minIndex = i;
+		}
+		if (((int)bekertSzoveg[i]) > ((int)bekertSzoveg[maxIndex]))
+		{
+			maxIndex = i;
+		}
+	}
+	// maximum ASCI kód értékű karakter
+	Console.WriteLine(bekertSzoveg[maxIndex]);
+	// minimum ASCI kód értékű karakter
+	Console.WriteLine(bekertSzoveg[minIndex]);
+	// a legnagyobból kivonjuk a legkisebbet, majd hogy látszódjon is valami, eltoljuk vagy 50-el
+	int nagybolKisebb = (bekertSzoveg[maxIndex] - bekertSzoveg[minIndex])+50;
+	Console.WriteLine(nagybolKisebb); // ASCII
+	Console.WriteLine((char)nagybolKisebb); // karakter
+	
+	// kérjen be legalább egy három szavas mondatot, és csak a második szavát írassa ki
+	string mondat = Console.ReadLine();
+	int szokozSzamlalo = 0;
+	int kezdoIndex = 0;
+	int zaroIndex = 0;
+	int index = 0; // ciklus változó
+	// megkeressük, hogy melyik indextől kezdődik a maásodik szó, és melyik indexxel zárul
+	while (szokozSzamlalo!=2)
+	{
+		if(mondat[index]==' ')
+		{
+			szokozSzamlalo++;
+			if (szokozSzamlalo == 1) kezdoIndex = index + 1;
+			if (szokozSzamlalo == 2) zaroIndex = index;
+		}
+		index++;
+	}
+	// ha megvannak a keresett értékek, akkor pont azt a szóösszetételt
+	// tudjuk kiíratni, amit szerettünk volna, a mondat második szavát
+	for (int i = kezdoIndex; i < zaroIndex; i++)
+	{
+		Console.Write(mondat[i]);
 	}
 	Console.WriteLine();
-
-	// (a-z) karaktereket egymás alá
-	//      (ha egymás mellé kiíratás lenne a feladat akkor 
-	//      Console.Write()-ot használunk)
-	for (int i = 'z'; i >= 'a'; i--)
+   
+	// a bekért karakter szám-e? (SEGÍT az ASCII tábla)
+	char karakter = Convert.ToChar(Console.ReadLine());
+	if(karakter>=48 && karakter <= 57)
 	{
-		Console.WriteLine((char)(i-32));
-	}
-
-	// kérj be egy nevet (vezeteknev keresztnev),
-	// majd képezz belőlle monogrammot, pl:
-	// kiss pista --> K.P.
-	Console.WriteLine("Add meg a neved");
-	string nev = Console.ReadLine();
-	Console.Write($"{(char)(nev[0] - 32)}.");
-	for (int i = 0; i < nev.Length; i++)
-	{
-		if (nev[i] == ' ')
-		{
-			Console.WriteLine($"{(char)(nev[i + 1] - 32)}.");
-		}
-	}
-
-	// keressük meg, hogy van-e a szövegben 'b' betű, 
-	// amennyiben van írjuk ki, hogy hanyadik indexen található a stringben
-	// ha nincs írjuk ki, hogy nem található benne 'b' betű
-	Console.WriteLine("szöveg:");
-	string szoveg = Console.ReadLine();
-	int index = -1;
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] == 'b')
-		{
-			index = i;
-		}
-	}
-	if (index == -1)
-	{
-		Console.WriteLine("nem volt benne b betű");
+		Console.WriteLine("A karakter egy szám");
 	}
 	else
 	{
-		Console.WriteLine($"Van benne {szoveg[index]}, méghozzá: {index} indexen");
+		Console.WriteLine("A karakter nem szám");
 	}
 
-	// kérjünk be egy tetszőleges szöveget, majd minden karakterének nyerjük ki
-	// az ASCII kódbeli értékét, ezeket az értékeket írassuk egymás mellé,
-	// szóközökkel elválasztva
-	Console.WriteLine("Adjon meg egy szöveget:");
-	string a = Console.ReadLine();
-	for (int i = 0; i < a.Length; i++)
+	// kérjen be egy szöveget, majd írassa ki minden karakterértékének 
+	// az ASCII kódbéli értékét egymás mellé szóközökkel elválasztva
+	string szoveg = Console.ReadLine();
+	for (int i = 0; i < szoveg.Length; i++)
 	{
-		Console.Write($"{(int)a[i]} ");
+		Console.Write($"{(int)szoveg[i]} ");
 	}
+	Console.WriteLine();
 
-	// adott egy MAC cím vagy Physical Address. Minden kötőjelét
-	// cserélje ':'-ra. Azaz: '-' --> ':'
-	string physicalAddress = "6C-6A-77-44-C8-E3";
-	for (int i = 0; i < physicalAddress.Length; i++)
+	// kérjen be egy szöveget, és minden második karakterét
+	// nagybetűsen írassa ki
+	string bSzoveg = Console.ReadLine();
+	for (int i = 1; i < bSzoveg.Length; i+=2)
 	{
-		if (physicalAddress[i] == '-')
+		Console.Write(bSzoveg[i]);
+	}
+	Console.WriteLine();
+
+	// kérjünk be egy karaktert,
+	// minden 'k'-->'m'-re cseréljünk kiíratáskor
+	string sz = "ablak";
+	for (int i = 0; i < sz.Length; i++)
+	{
+		if (sz[i] == 'k')
 		{
-			Console.Write(":");
+			Console.Write('m');
 		}
 		else
 		{
-			Console.Write(physicalAddress[i]);
-		}
-	}
-	Console.WriteLine();
-	
-	// kérj be egy nevet, majd fordított sorrendbe egymás mellé
-	// írassa ki a karakterekeit, ahól szóköz van,
-	// ott alkalmazzon sortörést
-	Console.WriteLine("Add meg a neved:");
-	string nev2 = Console.ReadLine();
-	for (int i = nev2.Length-1; i > -1; i--)
-	{
-		Console.Write(nev2[i]);
-		if (nev2[i]==' ')
-		{
-			Console.WriteLine();
+			Console.Write(sz[i]);
 		}
 	}
 	Console.WriteLine();
 
 
-	// üzenet tikosító, és visszafejtő program
-	Console.WriteLine("adj meg egy szöveget");
-	// bekérünk egy szöveget a konzolról
-	string uzenet = Console.ReadLine(); 
-	// a megírt függvénynek átadjuk paraméterül a bekért
-	// szöveget, amelynek a feladatköre, az hogy abból
-	// titkosított szöveges adatot gyártson
-	string titkositott = Titkositas(uzenet);
-	// ezt a titkosított szöveget egyben kiíratom,
-	// de akár egy for ciklussal is körbe járhatnám
-	// az elemeit, és karakterenként történő kiíratással
-	// is ugyan ezt el tudnám érni
-	Console.WriteLine(titkositott);
-	// majd visszafejtjük a titkosított üzenetet,
-	// az arra megírt 'Visszafejtes' függvénnyel,
-	// és amint ezt a visszafejett üzenetet vissza
-	// adta a függvény, kiíratjuk a Console.WriteLine-al
-	Console.WriteLine(Visszafejtes(titkositott));
+	// új anyag rész! -----------------------------------------------------------------
+	// számrendszerek
+
+	// dec2bin: paraméterben egy 10-es számot adunk át a függvénynek
+	// és visszatér a 2-es számrendszerbeli értékével
+	string bin = dec2bin(40);
+	// ezt kiíratjuk
+	Console.WriteLine(bin);
 	Console.ReadKey();
 }
 
-// titkosító függvény, vár egy szöveget paraméterként,
-// amit majd titkosít, és visszatér ezzel az új (titkosított)
-// üzenettel
-static string Titkositas(string uzenet)
-{
-	string titkositottUzenet = "";
-	for (int i = 0; i < uzenet.Length; i++)
-	{
-		titkositottUzenet += (char)(uzenet[i] - 45);
-	}
-	return titkositottUzenet;
-}
+// dec2bin függvény:
+// - van visszatérési értéke: string
+// - van paramétere: int típust vár
 
-// vár paraméterül egy titkosított üzenetet, visszafejti,
-// és visszatér vele
-static string Visszafejtes(string titkositottUzenet)
+private static string dec2bin(int dec)
 {
-	string uzenet = "";
-	for (int i = 0; i < titkositottUzenet.Length; i++)
+	// megkeressük a kezdőhatványt
+	int kezdohatvany = 0;
+	while (dec > Math.Pow(2,kezdohatvany+1)) kezdohatvany++;
+	int osszeg = 0;
+	string bin = "";
+	// ha megvan felépítjük karakterenként a 2-es számrendszerbeli értékét
+	for (int i = kezdohatvany; i >= 0; i--)
 	{
-		 uzenet+= (char)(titkositottUzenet[i] + 45);
+		if(osszeg+Math.Pow(2, i) <= dec)
+		{
+			osszeg += (int)Math.Pow(2, i);
+			bin += "1";
+		}
+		else bin += "0";
 	}
-	return uzenet;
+	// a függvény végén visszatérünk az elkészült kettes számrendszerbeli értékkel
+	return bin;
 }
 ```

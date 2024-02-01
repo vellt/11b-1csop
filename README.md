@@ -1,135 +1,111 @@
 ```c#
-static void Main(string[] args)
+// tömbök előnye, hogy nem kell rengeteg változót létrehoznom, hanem egy
+// változóban letudok tárolni mindent, csak egy mutatóval [index] lehivatkozom
+// az adott elemét. Ez a mutató/index 0-tól a tömb.Length-1ig tud lehivatkozni 
+// tömbbéli elemeket
+int sz1 = 12;
+int sz2 = 33;
+int sz4 = 12;
+
+// int tömb létrehozása. KÖTELEZŐ megadni a tömb hosszát
+int hossz = 3;
+int[] tomb = new int[hossz];
+// így tudunk egy-egy elemét lehivatkozni
+tomb[0] = 12;
+tomb[1] = 33;
+tomb[2] = 12;
+
+// az előző hivatkozást megtehetjük dimanikusabban is for ciklussal
+// 0-tól meg 3ig, amit vagy a hossz változóval kapunk meg vagy a 
+// tomb.Length-1el
+for (int i = 0; i < hossz; i++)
 {
-	// keresse meg a bekért szám legnagyobb és a legkissebb értékű karakter indexét.
-	// Majd vonja ki a legnagyobból a legkisebbet. Ez a szám milyen karakternek felel meg.
-	string bekertSzoveg = Console.ReadLine();
-	int minIndex = 0;
-	int maxIndex = 0;
-	for (int i = 0; i < bekertSzoveg.Length; i++)
-	{
-		if (((int)bekertSzoveg[i]) < ((int)bekertSzoveg[minIndex]))
-		{
-			minIndex = i;
-		}
-		if (((int)bekertSzoveg[i]) > ((int)bekertSzoveg[maxIndex]))
-		{
-			maxIndex = i;
-		}
-	}
-	// maximum ASCI kód értékű karakter
-	Console.WriteLine(bekertSzoveg[maxIndex]);
-	// minimum ASCI kód értékű karakter
-	Console.WriteLine(bekertSzoveg[minIndex]);
-	// a legnagyobból kivonjuk a legkisebbet, majd hogy látszódjon is valami, eltoljuk vagy 50-el
-	int nagybolKisebb = (bekertSzoveg[maxIndex] - bekertSzoveg[minIndex])+50;
-	Console.WriteLine(nagybolKisebb); // ASCII
-	Console.WriteLine((char)nagybolKisebb); // karakter
-	
-	// kérjen be legalább egy három szavas mondatot, és csak a második szavát írassa ki
-	string mondat = Console.ReadLine();
-	int szokozSzamlalo = 0;
-	int kezdoIndex = 0;
-	int zaroIndex = 0;
-	int index = 0; // ciklus változó
-	// megkeressük, hogy melyik indextől kezdődik a maásodik szó, és melyik indexxel zárul
-	while (szokozSzamlalo!=2)
-	{
-		if(mondat[index]==' ')
-		{
-			szokozSzamlalo++;
-			if (szokozSzamlalo == 1) kezdoIndex = index + 1;
-			if (szokozSzamlalo == 2) zaroIndex = index;
-		}
-		index++;
-	}
-	// ha megvannak a keresett értékek, akkor pont azt a szóösszetételt
-	// tudjuk kiíratni, amit szerettünk volna, a mondat második szavát
-	for (int i = kezdoIndex; i < zaroIndex; i++)
-	{
-		Console.Write(mondat[i]);
-	}
-	Console.WriteLine();
-   
-	// a bekért karakter szám-e? (SEGÍT az ASCII tábla)
-	char karakter = Convert.ToChar(Console.ReadLine());
-	if(karakter>=48 && karakter <= 57)
-	{
-		Console.WriteLine("A karakter egy szám");
-	}
-	else
-	{
-		Console.WriteLine("A karakter nem szám");
-	}
-
-	// kérjen be egy szöveget, majd írassa ki minden karakterértékének 
-	// az ASCII kódbéli értékét egymás mellé szóközökkel elválasztva
-	string szoveg = Console.ReadLine();
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		Console.Write($"{(int)szoveg[i]} ");
-	}
-	Console.WriteLine();
-
-	// kérjen be egy szöveget, és minden második karakterét
-	// nagybetűsen írassa ki
-	string bSzoveg = Console.ReadLine();
-	for (int i = 1; i < bSzoveg.Length; i+=2)
-	{
-		Console.Write(bSzoveg[i]);
-	}
-	Console.WriteLine();
-
-	// kérjünk be egy karaktert,
-	// minden 'k'-->'m'-re cseréljünk kiíratáskor
-	string sz = "ablak";
-	for (int i = 0; i < sz.Length; i++)
-	{
-		if (sz[i] == 'k')
-		{
-			Console.Write('m');
-		}
-		else
-		{
-			Console.Write(sz[i]);
-		}
-	}
-	Console.WriteLine();
-
-
-	// új anyag rész! -----------------------------------------------------------------
-	// számrendszerek
-
-	// dec2bin: paraméterben egy 10-es számot adunk át a függvénynek
-	// és visszatér a 2-es számrendszerbeli értékével
-	string bin = dec2bin(40);
-	// ezt kiíratjuk
-	Console.WriteLine(bin);
-	Console.ReadKey();
+	// dinamikusan feltöltjük a tömb minden elemét konzolból
+	tomb[i] = Convert.ToInt32(Console.ReadLine()); 
 }
 
-// dec2bin függvény:
-// - van visszatérési értéke: string
-// - van paramétere: int típust vár
-
-private static string dec2bin(int dec)
+// hozzunk létre egy 5 elemű string tömbböt és töltsük fel
+// konzolból bekért ruhaneműkkel
+int darab = 5;
+string[] szekreny = new string[darab];
+for (int i = 0; i < szekreny.Length; i++)
 {
-	// megkeressük a kezdőhatványt
-	int kezdohatvany = 0;
-	while (dec > Math.Pow(2,kezdohatvany+1)) kezdohatvany++;
-	int osszeg = 0;
-	string bin = "";
-	// ha megvan felépítjük karakterenként a 2-es számrendszerbeli értékét
-	for (int i = kezdohatvany; i >= 0; i--)
-	{
-		if(osszeg+Math.Pow(2, i) <= dec)
-		{
-			osszeg += (int)Math.Pow(2, i);
-			bin += "1";
-		}
-		else bin += "0";
-	}
-	// a függvény végén visszatérünk az elkészült kettes számrendszerbeli értékkel
-	return bin;
+	Console.Write("ruha hozzáadása: ");
+	szekreny[i] = Console.ReadLine();
 }
+// majd ha feltöltöttük kiíratjuk a ruhásszekrény tartalmát
+Console.WriteLine("ruhás szekrény: ");
+for (int i = 0; i < szekreny.Length; i++)
+{
+	Console.WriteLine($"- {szekreny[i]}");
+}
+
+// mátrix/két dimenziós tömb--------------------------------------------
+
+int[,] matrix = new int[10, 5];
+// GetLength(0)-->10, azaz mennyi vektorból/1dim tömbböl épül fel a mátrix
+// GetLength(1)-->5, azaz mennyi elemű egy egy vektora/1dim tömbje
+int szam = 1;
+for (int i = 0; i < matrix.GetLength(0); i++) // a sorokat tudjuk vele végigjárni
+{
+	for (int j = 0; j < matrix.GetLength(1); j++) // egy egy sor összes emét tudjuk körbe járni
+	{
+		// feltöltjük a mátrix összes elemét szam változó aktuális értékével
+		// majd növeljük, a következő ciklizálás során már egyel nagyobb értéket adunk hozzá
+		matrix[i, j] = szam++; 
+	}
+}
+
+// kiíratjuk a mátrix tartalmát ügyelve annak mátrixos nézetére
+for (int i = 0; i < matrix.GetLength(0); i++)
+{
+	for (int j = 0; j < matrix.GetLength(1); j++)
+	{
+		Console.Write($"{matrix[i, j]}\t");
+	}
+	Console.WriteLine();
+}
+
+// 1. indexű sor 3. indexű elemét hivatkozom le (bal felső sarokban kezdem a számolást)
+Console.WriteLine(matrix[1,3]); 
+
+
+// 1dim tömb/ vektor-------------------------------------------------------------------------------
+// hozzunk létre egy 5 elemű int tömbböt 
+// majd töltsük fel [-10,10]-es intervallumban lévő számokkal
+int[] tomb6 = new int[5];
+Random r = new Random();
+for (int i = 0; i < tomb6.Length; i++)
+{
+	tomb6[i] = r.Next(21)-10;
+}
+// majd írassuk ki egymás mellé az értékeket szóközzel elválasztva
+for (int i = 0; i < tomb6.Length; i++)
+{
+	Console.Write($"{tomb6[i]} ");
+}
+Console.WriteLine();
+
+// nézzük meg, hogy az előző feladatban feltöltött tömb elemei között
+// mennyi (SZÁMOLJUK MEG!) negatív, pozitív, páros és páratlan szám van
+int neg = 0;
+int poz = 0;
+int paros = 0;
+int paratlan = 0;
+for (int i = 0; i < tomb6.Length; i++)
+{
+	if (tomb6[i] < 0) neg++;
+	else poz++;
+
+	if (tomb6[i] % 2 == 0) paros++;
+	else paratlan++;
+
+}
+Console.Write(neg);
+Console.Write(poz);
+Console.Write(paros);
+Console.Write(paratlan);
+
+
+Console.ReadKey();
 ```

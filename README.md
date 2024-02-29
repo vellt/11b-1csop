@@ -1,15 +1,153 @@
 ```c#
 static void Main(string[] args)
 {
-	feladat1();
-	feladat2();
-	feladat3();
+	feladatBefejezese();
+	programozasiTetelek();
+	matrixGyak();
+	matrixFeladat();
 	Console.ReadKey();
 }
 
-private static void feladat3()
+private static void matrixFeladat()
 {
+	// egy 14 fős csoportban AAF-ből röpdolgozatot írat a tanár minden hónapban
+	// Eltelt 4 hónap. Mindenki kapott 1-1 jegyet [1,5]-ban minden dogára.
+	int[,] csoport = new int[14, 4];
+	Random random = new Random();
+	for (int i = 0; i < csoport.GetLength(0); i++)
+	{
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			csoport[i, j] = random.Next(5) + 1;
+		}
+	}
 
+	// - melyik tanulónak mennyi az átlaga
+	for (int i = 0; i < csoport.GetLength(0); i++)
+	{
+		int szum = 0;
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			szum += csoport[i, j];
+		}
+		Console.WriteLine($"{i+1}. tanulónak az átlaga: {(szum/4.0):0.00}");
+	}
+	// - mennyi az osztályátlag
+	double tanulokSzum = 0;
+	for (int i = 0; i < csoport.GetLength(0); i++)
+	{
+		int szum = 0;
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			szum += csoport[i, j];
+		}
+		tanulokSzum+= szum / 4.0;
+	}
+	double osztalyatlag = tanulokSzum / 14;
+	Console.WriteLine($"osztályátlag: {osztalyatlag:0.00}");
+
+	// - mennyi tanuló áll bulásra (1.6 alatt)
+	int bukasraAlloTanulokSzama = 0;
+	for (int i = 0; i < csoport.GetLength(0); i++)
+	{
+		int szum = 0;
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			szum += csoport[i, j];
+		}
+		double atlag = szum / 4.0;
+		if (atlag < 1.6) bukasraAlloTanulokSzama++;
+	}
+	Console.WriteLine(bukasraAlloTanulokSzama);
+
+	// - mennyi tanuló van az osztályátlag alatt
+	int osztalyatlagAlattiTanulokSzama = 0;
+	for (int i = 0; i < csoport.GetLength(0); i++)
+	{
+		int szum = 0;
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			szum += csoport[i, j];
+		}
+		double atlag = szum / 4.0;
+		if (atlag < osztalyatlag) osztalyatlagAlattiTanulokSzama++;
+	}
+	Console.WriteLine(osztalyatlagAlattiTanulokSzama);
+	// - van-e olyan tanuló aki bukásra áll? (1.6 alatt)
+	bool  vanE = false;
+	for (int i = 0; vanE==false && i < csoport.GetLength(0); i++)
+	{
+		int szum = 0;
+		for (int j = 0; j < csoport.GetLength(1); j++)
+		{
+			szum += csoport[i, j];
+		}
+		double atlag = szum / 4.0;
+		if (atlag <1.6) vanE=true;
+	}
+	Console.WriteLine(vanE ? "van" : "nincs");
+	// - van-e olyan tanuló aki csak egyest szerzett a 4 hónap alatt
+	// - van-e olyan tanuló akinek az első jegye és az utolsó jegye megegyezik
+}
+
+private static void matrixGyak()
+{
+	int[,] matrix = new int[2,4];
+	Random r = new Random();
+	for (int i = 0; i < matrix.GetLength(0); i++) // sorok lekérése
+	{
+		for (int j = 0; j < matrix.GetLength(1); j++)
+		{
+			matrix[i, j] = r.Next(10) + 1; //[1,10]
+			Console.Write($"{matrix[i, j]}\t");
+		}
+		Console.WriteLine();
+	}
+}
+
+private static void programozasiTetelek()
+{
+	// összegzes: összeadja az elemeket, vagy összefűz
+	// megszámlálás: FELTÉTELnek mennyi elem passzol, db
+	// eldöntés: FELTÉTEL mentén eldöntjük van-e benne olyan elem, avagy nincs
+
+	int[] tomb = new int[] { 1, 2, 3, 4, 5 };
+	// összegzes
+	int osszeg = 0;
+	for (int i = 0; i < tomb.Length; i++)
+	{
+		osszeg += tomb[i];
+	}
+	Console.WriteLine(osszeg);
+	// az összegzés tétele összefűzésre (konkatenáció) is alkalmas
+	string[] mondoka = new string[] { "beka", "ül", "a", "fűben" };
+	string osszefuzott = "";
+	for (int i = 0; i < mondoka.Length; i++)
+	{
+		osszefuzott += mondoka[i]+" ";
+	}
+	Console.WriteLine(osszefuzott);
+
+	// megszámlálás
+	int szamlalo = 0;
+	for (int i = 0; i < tomb.Length; i++)
+	{
+		if (tomb[i] % 2 == 0) szamlalo++;
+
+	}
+	Console.WriteLine(szamlalo);
+
+	// eldöntés
+	bool vanE = false;
+	for (int i = 0; vanE==false && i < tomb.Length; i++)
+	{
+		if (tomb[i] == 2) vanE = true;
+	}
+	Console.WriteLine(vanE ? "van" : "nincs");
+}
+
+private static void feladatBefejezese()
+{
 	string[] gyumolcsok = new string[]
 	{
 		"alma",
@@ -19,202 +157,41 @@ private static void feladat3()
 		"szilva",
 		"Mandarin"
 	};
-
-	// mennyi legalabb 5 karakteres szó van benne
-	Console.WriteLine();
-	int szamlalo = 0;
+	// melyik a legtöbb magánhangzót tartalmazó szó
+	string legtobbMaganhangzo = gyumolcsok[0];
+	int maxMaganhangzo = 0;
 	for (int i = 0; i < gyumolcsok.Length; i++)
 	{
-		if (gyumolcsok[i].Length >= 5) szamlalo++;
-	}
-	Console.WriteLine($"ennyi legalább 5 karakteres: {szamlalo}");
-
-	// van-e páros karakterhosszú szó
-	int index = 0;
-	bool VANe = false;
-	while (VANe == false && index<gyumolcsok.Length)
-	{
-		if (gyumolcsok[index].Length % 2 == 0) VANe = true;
-		index++;
-		
-	}
-	Console.WriteLine((VANe?"van":"nincs")+" páros karakter hossz");
-
-	// van-e olyan szó, amely nagybetűvel kezdődik
-	int index2 = 0;
-	bool Vane = false;
-	while(Vane == false && index2<gyumolcsok.Length)
-	{
-		string gyumolcs = gyumolcsok[index2];
-		if (gyumolcs[0]>='A' && gyumolcs[0] <= 'Z')
+		string gyumolcs = gyumolcsok[i];
+		int maganhangzo = 0;
+		for (int j = 0; j < gyumolcs.Length; j++)
 		{
-			Vane = true;
+			if( gyumolcs[j] == 'a' ||
+				gyumolcs[j] == 'e' ||
+				gyumolcs[j] == 'i' ||
+				gyumolcs[j] == 'o' ||
+				gyumolcs[j] == 'u')
+			{
+				maganhangzo++;
+			}
+		}
+		if (maxMaganhangzo < maganhangzo)
+		{
+			maxMaganhangzo = maganhangzo;
+			legtobbMaganhangzo = gyumolcs;
 		}
 	}
-	Console.WriteLine((Vane ? "van":"nincs")+ " amely nagybetűvel kezdődik");
+	Console.WriteLine(legtobbMaganhangzo);
 
-	// van-e olyan szó, amely tartalmaz 'd' betűt
-	int index3 = 0;
-	bool VanE = false;
-	while(VanE==false && index3<gyumolcsok.Length)
-	{
-		string gyumolcs = gyumolcsok[index3];
-		int index4 = 0;
-		while (VanE == false && index4 < gyumolcs.Length) 
-		{
-			if (gyumolcs[index4] == 'd') VanE = true;
-			index4++;
-		}
-		index3++;
-	}
-	Console.WriteLine((VanE?"van":"nincs")+ "olyan szó amely tartalmaz d betut");
-
-	// melyik a legtöbb magánhangzót tartalmazó szó
 	// van-e szilva a tömbben.
-
-}
-
-private static void feladat2()
-{
-	string szoveg = "CASIC nevu kinai ceg megdonti a vasutipar rekordjait. Keszul az 1000km/h-s vonat.";
-	// mennyi db betű (kisbetű/nagybetű) van benne
-	int betuszamlalo = 0;
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if ((szoveg[i] >= 'a' && szoveg[i] <= 'z') || (szoveg[i] >= 'A' && szoveg[i] <= 'Z')) 
-			betuszamlalo++;
-	}
-	Console.WriteLine(betuszamlalo);
-	
-	// mennyi db maganhangzo van benne
-	int maganhangzoszamlalo = 0;
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (
-			szoveg[i] == 'a' || 
-			szoveg[i] == 'e' || 
-			szoveg[i] == 'i' || 
-			szoveg[i] == 'u' || 
-			szoveg[i] == 'o')
-		{
-			maganhangzoszamlalo++;
-		}
-	}
-	Console.WriteLine(maganhangzoszamlalo);
-
-	// mennyi db mondatbol all
-	int mondatszamlalo = 0;
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] == '.') mondatszamlalo++;
-	}
-	Console.WriteLine(mondatszamlalo);
-
-	// mennyi db szam van benne
-	int szamszamlalo = 0;
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] >= '0' && szoveg[i] <= '9') szamszamlalo++;
-	   
-	}
-	Console.WriteLine(szamszamlalo);
-
-	// hány %-a szám a teljes szövegnek, 2 tizedes
-	double szamszazalek = szamszamlalo / (double)szoveg.Length;
-	Console.WriteLine($"{(szamszazalek*100):0.00}");
-	// van-e benne kisbetű
 	bool vanE = false;
 	int index = 0;
-	while(vanE==false && index < szoveg.Length)
+	while (vanE==false && index<gyumolcsok.Length)
 	{
-		if(szoveg[index]>='a' && szoveg[index] <= 'z')
-		{
-			vanE = true;
-		}
+		if (gyumolcsok[index] == "szilva") vanE = true;
+
 		index++;
 	}
-	Console.WriteLine((vanE ? "van" : "nincs") + " benne kis betű");
-
-	// van-e benne /-jel
-	bool vanE2 = false;
-	int index2 = 0;
-	while (vanE2 == false && index2 < szoveg.Length)
-	{
-		if (szoveg[index2] == '/') vanE2 = true;
-
-		index2++;
-	}
-
-	Console.WriteLine((vanE2 ? "van" : "nincs") + " benne / jel");
-
-	// írassa ki a szöveget. Viszont, ha van benne nagybetű, azt írassa ki kisbetűsen.
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i]>='A' && szoveg[i]<='Z')
-		{
-			Console.Write((char)(szoveg[i]+32));
-		}
-		else Console.Write(szoveg[i]);
-	}
-
-}
-
-private static void feladat1()
-{
-	int[] tomb = new int[10];
-	Random r = new Random();
-	for (int i = 0; i < tomb.Length; i++)
-	{
-		tomb[i] = r.Next(21)-10; //[-10,10]
-		Console.Write($"{tomb[i]} ");
-	}
-	Console.WriteLine();
-
-	// mennyi páratlan szám van benne (megszámlálás)
-	int paratlanDb = 0;
-	for (int i = 0; i < tomb.Length; i++)
-	{
-		if (tomb[i] % 2 != 0) paratlanDb++;
-	}
-	Console.WriteLine(paratlanDb);
-
-	// mennyi 0-nél kisebb (megszámlálás)
-	int tiznelKisebb = 0;
-	for (int i = 0; i < tomb.Length; i++)
-	{
-		if (tomb[i] < 0) tiznelKisebb++;
-	}
-	Console.WriteLine(tiznelKisebb);
-
-	// mennyi az átlaguk 2 tizedes pontosan (összegzés)
-	int osszeg = 0;
-	for (int i = 0; i < tomb.Length; i++)
-	{
-		osszeg += tomb[i];
-		// osszeg = osszeg + tomb[i];
-	}
-	double atlag = osszeg / (double)tomb.Length;
-	Console.WriteLine($"átlaguk: {atlag:0.00}");
-	Console.WriteLine($"átlaguk: {Math.Round(atlag,2)}");
-
-	// van-e benne negatív szám (eldöntés)
-	bool vanE = false;
-	int index = 0;
-	while (vanE==false && index<tomb.Length)
-	{
-		if (tomb[index] < 0) vanE = true;
-		index++;
-	}
-	// ugyan az mint a while ciklus csak forral
-	for(int i=0; vanE == false && i < tomb.Length; i++)
-	{
-		if (tomb[i] < 0) vanE = true;
-	}
-	Console.WriteLine((vanE? "van":"nincs")+" benne negatív szám");
-
-	// van-e az átlagtól nagyobb szám (eldöntés)
-	bool vanE2 = false;
-	for (int i = 0; vanE2 == false && i < tomb.Length; i++) if (tomb[i] > atlag) vanE2 = true;
-	Console.WriteLine((vanE2 ? "van" : "nincs") + " az átlagtól nagyobb szám benne.");
+	Console.WriteLine((vanE ? "van" : "nincs") + " benne szilva");
 }
 ```

@@ -1,197 +1,178 @@
 ```c#
 static void Main(string[] args)
 {
-	feladatBefejezese();
-	programozasiTetelek();
-	matrixGyak();
-	matrixFeladat();
+	VektorosFeladat();
+	matrixosFeladat();
 	Console.ReadKey();
 }
 
-private static void matrixFeladat()
+private static void matrixosFeladat()
 {
-	// egy 14 fős csoportban AAF-ből röpdolgozatot írat a tanár minden hónapban
-	// Eltelt 4 hónap. Mindenki kapott 1-1 jegyet [1,5]-ban minden dogára.
-	int[,] csoport = new int[14, 4];
-	Random random = new Random();
-	for (int i = 0; i < csoport.GetLength(0); i++)
-	{
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			csoport[i, j] = random.Next(5) + 1;
-		}
-	}
-
-	// - melyik tanulónak mennyi az átlaga
-	for (int i = 0; i < csoport.GetLength(0); i++)
-	{
-		int szum = 0;
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			szum += csoport[i, j];
-		}
-		Console.WriteLine($"{i+1}. tanulónak az átlaga: {(szum/4.0):0.00}");
-	}
-	// - mennyi az osztályátlag
-	double tanulokSzum = 0;
-	for (int i = 0; i < csoport.GetLength(0); i++)
-	{
-		int szum = 0;
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			szum += csoport[i, j];
-		}
-		tanulokSzum+= szum / 4.0;
-	}
-	double osztalyatlag = tanulokSzum / 14;
-	Console.WriteLine($"osztályátlag: {osztalyatlag:0.00}");
-
-	// - mennyi tanuló áll bulásra (1.6 alatt)
-	int bukasraAlloTanulokSzama = 0;
-	for (int i = 0; i < csoport.GetLength(0); i++)
-	{
-		int szum = 0;
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			szum += csoport[i, j];
-		}
-		double atlag = szum / 4.0;
-		if (atlag < 1.6) bukasraAlloTanulokSzama++;
-	}
-	Console.WriteLine(bukasraAlloTanulokSzama);
-
-	// - mennyi tanuló van az osztályátlag alatt
-	int osztalyatlagAlattiTanulokSzama = 0;
-	for (int i = 0; i < csoport.GetLength(0); i++)
-	{
-		int szum = 0;
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			szum += csoport[i, j];
-		}
-		double atlag = szum / 4.0;
-		if (atlag < osztalyatlag) osztalyatlagAlattiTanulokSzama++;
-	}
-	Console.WriteLine(osztalyatlagAlattiTanulokSzama);
-	// - van-e olyan tanuló aki bukásra áll? (1.6 alatt)
-	bool  vanE = false;
-	for (int i = 0; vanE==false && i < csoport.GetLength(0); i++)
-	{
-		int szum = 0;
-		for (int j = 0; j < csoport.GetLength(1); j++)
-		{
-			szum += csoport[i, j];
-		}
-		double atlag = szum / 4.0;
-		if (atlag <1.6) vanE=true;
-	}
-	Console.WriteLine(vanE ? "van" : "nincs");
-	// - van-e olyan tanuló aki csak egyest szerzett a 4 hónap alatt
-	// - van-e olyan tanuló akinek az első jegye és az utolsó jegye megegyezik
-}
-
-private static void matrixGyak()
-{
-	int[,] matrix = new int[2,4];
+	// DOLGOZATBAN VÁRHATÓ MÁTRIXOS FELADATOK
+	int[,] honapok = new int[12, 30];
 	Random r = new Random();
-	for (int i = 0; i < matrix.GetLength(0); i++) // sorok lekérése
+	for (int i = 0; i < honapok.GetLength(0); i++)
 	{
-		for (int j = 0; j < matrix.GetLength(1); j++)
+		for (int j = 0; j < honapok.GetLength(1); j++)
 		{
-			matrix[i, j] = r.Next(10) + 1; //[1,10]
-			Console.Write($"{matrix[i, j]}\t");
+			honapok[i, j] = r.Next(21)-10; //[-10,10]
 		}
-		Console.WriteLine();
 	}
+	// Melyik hónapban van mennyi az átlaghőmérsékelt
+	double honapokAtlaghomersekletei = 0; // a harmadik részfeladathoz kell
+	for (int i = 0; i < honapok.GetLength(0); i++)
+	{
+		int egyHonapOsszHomerseklete = 0;
+		for (int j = 0; j < honapok.GetLength(1); j++)
+		{
+			egyHonapOsszHomerseklete += honapok[i, j];
+		}
+		int honapNapjai = honapok.GetLength(1);
+		double egyHonapAtlagHomerseklete = egyHonapOsszHomerseklete / (double)honapNapjai;
+		honapokAtlaghomersekletei += egyHonapAtlagHomerseklete; // a harmadik részfeladathoz kell
+		Console.WriteLine($"{i+1}. hó: {egyHonapAtlagHomerseklete:0.00} az átlaghőmérséklete");
+	}
+	// Mennyi az éves átlaghőmérséklet
+	double evesAtlag = honapokAtlaghomersekletei / (double)honapok.GetLength(0);
+	Console.WriteLine(Math.Round(evesAtlag, 2));
 }
 
-private static void programozasiTetelek()
+private static void VektorosFeladat()
 {
-	// összegzes: összeadja az elemeket, vagy összefűz
-	// megszámlálás: FELTÉTELnek mennyi elem passzol, db
-	// eldöntés: FELTÉTEL mentén eldöntjük van-e benne olyan elem, avagy nincs
+	// 12 napig megmértük a napi csapadék mennyiséget. Határozzuk meg
+	// mennyi eső esett összesen.
 
-	int[] tomb = new int[] { 1, 2, 3, 4, 5 };
-	// összegzes
-	int osszeg = 0;
-	for (int i = 0; i < tomb.Length; i++)
+	int[] csapadekok = new int[12];
+	Random r = new Random();
+	int osszes = 0;
+	for (int i = 0; i < csapadekok.Length; i++)
 	{
-		osszeg += tomb[i];
+		csapadekok[i] = r.Next(21) + 10;
+		osszes += csapadekok[i];
+		//osszes =osszes+ csapadekok[i];
 	}
-	Console.WriteLine(osszeg);
-	// az összegzés tétele összefűzésre (konkatenáció) is alkalmas
-	string[] mondoka = new string[] { "beka", "ül", "a", "fűben" };
-	string osszefuzott = "";
-	for (int i = 0; i < mondoka.Length; i++)
-	{
-		osszefuzott += mondoka[i]+" ";
-	}
-	Console.WriteLine(osszefuzott);
+	Console.WriteLine(osszes);
 
-	// megszámlálás
+
+	// ismerjuk 9 auto fogyasztasat, dontsuk el,
+	// hogy minden auto 10 liter alatt fogyasztott_e
 	int szamlalo = 0;
-	for (int i = 0; i < tomb.Length; i++)
+	int[] fogyasztasok = new int[9];
+	for (int i = 0; i < fogyasztasok.Length; i++)
 	{
-		if (tomb[i] % 2 == 0) szamlalo++;
-
-	}
-	Console.WriteLine(szamlalo);
-
-	// eldöntés
-	bool vanE = false;
-	for (int i = 0; vanE==false && i < tomb.Length; i++)
-	{
-		if (tomb[i] == 2) vanE = true;
-	}
-	Console.WriteLine(vanE ? "van" : "nincs");
-}
-
-private static void feladatBefejezese()
-{
-	string[] gyumolcsok = new string[]
-	{
-		"alma",
-		"korte",
-		"banan",
-		"narancs",
-		"szilva",
-		"Mandarin"
-	};
-	// melyik a legtöbb magánhangzót tartalmazó szó
-	string legtobbMaganhangzo = gyumolcsok[0];
-	int maxMaganhangzo = 0;
-	for (int i = 0; i < gyumolcsok.Length; i++)
-	{
-		string gyumolcs = gyumolcsok[i];
-		int maganhangzo = 0;
-		for (int j = 0; j < gyumolcs.Length; j++)
+		fogyasztasok[i] = r.Next(12)+4;
+		if(fogyasztasok[i] < 10)
 		{
-			if( gyumolcs[j] == 'a' ||
-				gyumolcs[j] == 'e' ||
-				gyumolcs[j] == 'i' ||
-				gyumolcs[j] == 'o' ||
-				gyumolcs[j] == 'u')
-			{
-				maganhangzo++;
-			}
-		}
-		if (maxMaganhangzo < maganhangzo)
-		{
-			maxMaganhangzo = maganhangzo;
-			legtobbMaganhangzo = gyumolcs;
+			szamlalo++;
 		}
 	}
-	Console.WriteLine(legtobbMaganhangzo);
+	Console.WriteLine(((szamlalo==fogyasztasok.Length)?"":"nem")+" minden autó fogyasztott 10liter alatt");
 
-	// van-e szilva a tömbben.
+	//ismerjuk 11 ember magassagat van e olyan ember amely alacsonyabb mint a mogotte allo ember
+	int[] magassag = new int[11];
 	bool vanE = false;
-	int index = 0;
-	while (vanE==false && index<gyumolcsok.Length)
+	for (int i = 0; i < magassag.Length; i++)
 	{
-		if (gyumolcsok[index] == "szilva") vanE = true;
-
-		index++;
+		magassag[i] = r.Next(31)+160;
 	}
-	Console.WriteLine((vanE ? "van" : "nincs") + " benne szilva");
+
+	for (int i = 1; vanE==false && i < magassag.Length; i++)
+	{
+		if (magassag[i] < magassag[i - 1]) vanE = true;
+	}
+	if (vanE == true)  Console.WriteLine("van olyan ember amely alacsonyabb");
+	else Console.WriteLine("Nincs benne alacsonyabb");
+
+
+	// határozzuk meg hogy egy adott hónap melyik évszakba esik
+
+	int honap = Convert.ToInt32(Console.ReadLine());
+	switch (honap)
+	{
+		case 12:
+		case 1:
+		case 2:
+			Console.WriteLine("Tél");
+			break;
+		case 3:
+		case 4:
+		case 5:
+			Console.WriteLine("Tavasz");
+			break;
+		case 6:
+		case 7:
+		case 8:
+			Console.WriteLine("Nyár");
+			break;
+		case 9:
+		case 10:
+		case 11:
+			Console.WriteLine("Ősz");
+			break;
+	}
+
+	if (honap >= 9 && honap <= 11) Console.WriteLine("Ősz");
+	else if (honap >= 6 && honap <= 8) Console.WriteLine("Nyár"); 
+	else if (honap >=3  && honap <=5 ) Console.WriteLine("Tavasz");
+	else Console.WriteLine("Tél");
+
+	// olvassunk be adig ami nem irunk be ket azonos nevet
+	string kezdetlegi = "";
+	string bekert = "";
+	bool bentmaradasiFeltetel = true;
+	while (bentmaradasiFeltetel) 
+	{
+		bekert = Console.ReadLine();
+		if (bekert == kezdetlegi) bentmaradasiFeltetel = false;
+		kezdetlegi = bekert;
+	}
+	Console.WriteLine("kilép");
+
+	// -----------------------------------------------------
+	// DOLGOZATBAN VÁRHATÓ VEKTOROS FELADATOK
+	// allitson elo veletlenszeruen 28 szamot -10;10-es intervallumban
+
+	int[] veletlen = new int[28];
+	for (int i = 0; i < veletlen.Length; i++)
+	{
+		veletlen[i] = r.Next(21)-10;
+	}
+
+	// pozitiv vagy a negativ szambol van tobb
+	int negativ = 0;
+	int pozitiv = 0;
+	for (int i = 0; i < veletlen.Length; i++)
+	{
+		if (veletlen[i] >= 0) pozitiv++;
+		else negativ++;
+	}
+	if (negativ < pozitiv) Console.WriteLine("pozitivbol tobb van");
+	else if (pozitiv < negativ) Console.WriteLine("negativbol tobb van");
+	else Console.WriteLine("egyforma");
+
+	// Hányszor fordul elő a 7-es szám
+	int het = 0;
+	for (int i = 0; i < veletlen.Length; i++)
+	{
+		if (veletlen[i] == 7) het++;
+	}
+	Console.WriteLine(het);
+
+	// van-e a számok között nulla
+	bool van = false;
+	for (int i = 0; van==false && i < veletlen.Length; i++)
+	{
+		if (veletlen[i] == 0) van = true;
+	}
+	Console.WriteLine(van ? "van" : "nincs");
+
+	// negatív számok átlaga
+	int negativDB = 0;
+	for (int i = 0; i < veletlen.Length; i++)
+	{
+		if (veletlen[i] < 0) negativDB++;
+	}
+	double atlag = negativDB / (double)veletlen.Length;
+	Console.WriteLine(Math.Round(atlag,2));
 }
 ```

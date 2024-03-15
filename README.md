@@ -1,93 +1,41 @@
 ```c#
-static void Main(string[] args)
+// egy teremben 10 pad van
+// minden padban ül egy fiú vagy egy lány
+// 0/1 fiú lány
+int[,] terem = new int[10, 2];
+Random r = new Random();
+int lany = 0;
+int fiu = 0;
+for (int i = 0; i < terem.GetLength(0); i++)
 {
-	Console.WriteLine("1. Pi értéke");
-	Console.WriteLine("2. Pi kirajzolása");
-	Console.WriteLine("3. Pi kirajzolása 2");
-	Console.WriteLine("--------------------");
-	Console.Write("Menu: ");
-	switch (Convert.ToInt32(Console.ReadLine()))
+	for (int j = 0; j < terem.GetLength(1); j++)
 	{
-		case 1:
-			piErteke();
-			break;
-		case 2:
-			piKirajzol();
-			break;
-		case 3:
-			piKirajzol2();
-			break;
+		terem[i,j] = r.Next(2);
+		if (terem[i, j] == 1) lany++;
+		else fiu++;
+		Console.Write($"{terem[i, j]} ");
 	}
-	Console.ReadKey();
-}
 
-private static void piKirajzol2()
-{
-	Console.WriteLine("--------------------\n");
-	string szoveg = File.ReadAllText("num3.txt");
-	bool talalat = false;
-	string ertek = "";
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] == '{')
-		{
-			ertek = "";
-			talalat = true;
-		}else if (szoveg[i] == '}')
-		{
-			talalat = false;
-			if (ertek == "B")
-			{
-				Console.Write(Math.Round(22/7.0,2));
-			}
-			else if(ertek=="0")
-			{
-				Console.WriteLine();
-			}
-			else
-			{
-				// szám
-				int szam = Convert.ToInt32(ertek);
-				for (int j = 0; j < szam; j++)
-				{
-					Console.Write(' ');
-				}
-			}
-		}
-		else if (talalat == true)
-		{
-			ertek += szoveg[i];
-		}
-		else
-		{
-			Console.Write(szoveg[i]);
-		}
-	}
+	Console.WriteLine();
 }
+// fiúból van lányból van több?
+Console.WriteLine($"ennyi fiu van : {fiu}");
+Console.WriteLine($"ennyi lany van : {lany}");
+if (lany > fiu) Console.WriteLine("lányból több van");
+else if (lany < fiu) Console.WriteLine("fiuból több van");
+else Console.WriteLine("ugyan annyi");
 
-private static void piKirajzol()
-{
-	Console.WriteLine("--------------------\n");
-	string szoveg = File.ReadAllText("num1.txt");
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] == 'K') Console.Write(" ");
-		else if (szoveg[i] == 'B') Console.Write(Math.Round(22/7.0,2));
-		else if (szoveg[i] == 'H') Console.Write("  ");
-		else if (szoveg[i] == 'P') Console.Write("   ");
-		else if (szoveg[i] >= '0' && szoveg[i] <= '9') Console.Write(szoveg[i]);
-		else if (szoveg[i] == 'Q') Console.WriteLine();
-	}
-}
+// mennyi százaléka lány az teremben ülőknek?
+Console.WriteLine($"{Math.Round(((double)lany/20)*100,2)}%");
 
-private static void piErteke()
+// ez első padban 2 fiú ül?
+int osszeg = 0;
+for (int i = 0; i < terem.GetLength(1); i++) // 2 ember ül egy padban, 2x fut le
 {
-	Console.WriteLine("--------------------\n");
-	string szoveg = File.ReadAllText("num1.txt");
-	for (int i = 0; i < szoveg.Length; i++)
-	{
-		if (szoveg[i] == 'B') Console.Write(Math.Round(22 / 7.0, 2));
-		else if (szoveg[i] > '0' && szoveg[i] < '9') Console.Write(szoveg[i]);
-	}
+	osszeg += terem[0,i]; // 0. sor--> első pad.
 }
+// ha nulla maradt az összeg értéke akk két fiú ül ott
+Console.WriteLine((osszeg==0)?"igen":"nem");
+
+Console.ReadKey();
 ```
